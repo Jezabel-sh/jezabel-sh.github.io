@@ -1170,6 +1170,36 @@
        }
    }
 
+
+/* Estilos para la visualización de proyectos en móvil */
+   @media screen and (max-width: 768px) {
+	/* Ocultar Swiper en móvil */
+	#projects .swiper-container {
+	   display: none !important;
+	}
+	
+/* Mostrar la lista simple de proyectos en móvil */
+	#projects .mobile-projects {
+	   display: block;
+	   margin-top: 20px;
+	}
+	
+	/* Estilos para las tarjetas de proyectos en móvil */
+	#projects .mobile-projects .project-card {
+	   margin-bottom: 20px;
+	   width: 90%;
+	   padding: 20px;
+	   text-align: center;
+	}
+   }
+	
+   @media screen and (min-width: 769px) {
+	/* Ocultar lista simple en desktop */
+	#projects .mobile-projects {
+	   display: none;
+	}
+   }
+	   
       
    </style>
 </head>
@@ -1278,6 +1308,54 @@
 <div id="projects" class="section">
     <div class="projects-container">
         <h2 class="highlight">My Projects</h2>
+
+	        <!-- Versión Móvil: Lista simple de proyectos (solo visible en móvil) -->
+        <div class="mobile-projects">
+            <!-- Proyecto 1 -->
+            <div class="project-card">
+                <h3>Waste Classification</h3>
+                <p class="project-desc">
+                    A deep learning model using EfficientNet was developed to classify waste types, enhancing recycling processes.
+                </p>
+                <a href="https://github.com/Jezabel-sh/garbage_classification" class="button">GitHub</a>
+            </div>
+            
+            <!-- Proyecto 2 -->
+            <div class="project-card">
+                <h3>Credit Risk Prediction</h3>
+                <p class="project-desc">
+                    This model analyzes historical financial data to assess and predict loan default risk.
+                </p>
+                <a href="https://www.kaggle.com/code/jezabelsh/home-credit-default-risk" class="button">Kaggle</a>
+            </div>
+            
+            <!-- Proyecto 3 -->
+            <div class="project-card">
+                <h3>Logistics Optimization</h3>
+                <p class="project-desc">
+                    The system optimizes logistics operations by assigning orders intelligently to trucks for efficient deliveries.
+                </p>
+                <a href="https://github.com/Jezabel-sh/logistics-optimizer" class="button">GitHub</a>
+            </div>
+            
+            <!-- Proyecto 4 -->
+            <div class="project-card">
+                <h3>Cost of Living Index</h3>
+                <p class="project-desc">
+                    This project analyzes the global cost of living by comparing expenses across key categories worldwide.
+                </p>
+                <a href="https://www.kaggle.com/code/jezabelsh/cost-of-living-index-by-country" class="button">Kaggle</a>
+            </div>
+            
+            <!-- Proyecto 5 -->
+            <div class="project-card">
+                <h3>Walmart Sales Analysis</h3>
+                <p class="project-desc">
+                    Analyzing Walmart sales trends and external factors impacting revenue for strategic recommendations.
+                </p>
+                <a href="https://github.com/Jezabel-sh/walmart_sales_analysis" class="button">GitHub</a>
+            </div>
+        </div>
 
         <!-- Swiper Slider -->
         <div class="swiper-container">

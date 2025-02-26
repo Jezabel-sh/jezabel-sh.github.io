@@ -601,6 +601,7 @@
            opacity: 1;
            font-size: 1em;
            max-width: max-content; /* Cambiado de fit-content a max-content */
+	   will-change: width;
        }
       
        @keyframes typing {
@@ -1203,10 +1204,10 @@
        </header>
 
       <nav>
-         <a href="#about" onclick="showSection('about')"><i class="fas fa-user"></i> About Me</a>
-         <a href="#experience" onclick="showSection('experience')"><i class="fas fa-briefcase"></i> Experience</a>
-         <a href="#projects" onclick="showSection('projects')"><i class="fas fa-project-diagram"></i> Projects</a>
-         <a href="#contact" onclick="showSection('contact')"><i class="fas fa-envelope"></i> Contact</a>
+         <a href="javascript:void(0);" onclick="showSection('about')"><i class="fas fa-user"></i> About Me</a>
+         <a href="javascript:void(0);" onclick="showSection('experience')"><i class="fas fa-briefcase"></i> Experience</a>
+         <a href="javascript:void(0);" onclick="showSection('projects')"><i class="fas fa-project-diagram"></i> Projects</a>
+         <a href="javascript:void(0);" onclick="showSection('contact')"><i class="fas fa-envelope"></i> Contact</a>
       </nav>
    
 <!-- Sections -->
@@ -1244,7 +1245,7 @@
 
         <div class="experience-content">
             <!-- Imagen 1 -->
-            <img src="https://raw.githubusercontent.com/Jezabel-sh/jezabel-sh.github.io/refs/heads/main/Image1.jpeg" alt="Finance Analysis" class="experience-img">
+            <img src="https://raw.githubusercontent.com/Jezabel-sh/jezabel-sh.github.io/refs/heads/main/Image1.jpeg" alt="Finance Analysis" class="experience-img" loading="lazy">
             <div class="experience-text">
                 <p>
                     Throughout my career in finance and accounting, I have worked extensively with large datasets, financial modeling, and business performance analysis. My expertise in cost management and financial analysis has enabled me to extract valuable insights from data, optimize resource allocation, and support strategic decision-making. I have led projects involving detailed financial reporting, budgeting, cost control, and revenue forecasting, ensuring efficient resource management and driving business growth.
@@ -1254,7 +1255,7 @@
 
         <div class="experience-content">
             <!-- Imagen 2 -->
-            <img src="https://raw.githubusercontent.com/Jezabel-sh/jezabel-sh.github.io/refs/heads/main/Image2.jpeg" alt="Data Science Work" class="experience-img">
+            <img src="https://raw.githubusercontent.com/Jezabel-sh/jezabel-sh.github.io/refs/heads/main/Image2.jpeg" alt="Data Science Work" class="experience-img" loading="lazy">
             <div class="experience-text">
                 <p>
                     Beyond traditional finance, I have always been passionate about translating data into actionable insights. To achieve this, I use tools like SQL, Excel, Tableau, and Power BI, as well as Python for advanced analysis, process automation, and improving the accuracy of financial models. By leveraging libraries such as Pandas, NumPy, and Matplotlib, I have enhanced data visualization and manipulation, enabling more accurate trend analysis, forecasting, and decision-making.
@@ -1264,7 +1265,7 @@
 
         <div class="experience-content">
             <!-- Imagen 3 -->
-            <img src="https://raw.githubusercontent.com/Jezabel-sh/jezabel-sh.github.io/refs/heads/main/Image3.jpeg" alt="Machine Learning Model" class="experience-img">
+            <img src="https://raw.githubusercontent.com/Jezabel-sh/jezabel-sh.github.io/refs/heads/main/Image3.jpeg" alt="Machine Learning Model" class="experience-img" loading="lazy">
             <div class="experience-text">
                 <p>
                     In the field of data science, I have expanded my expertise in machine learning and deep learning, focusing on their applications in finance. I specialize in building predictive models and classification systems using advanced techniques such as artificial neural networks, supervised learning, and unsupervised learning. I work with libraries like TensorFlow, Keras, and Scikit-learn to develop models that predict financial risks, optimize investment strategies, and enhance operational efficiency through AI-driven automation.
@@ -1404,10 +1405,9 @@ function showSection(sectionId) {
         selectedSection.style.display = 'block';
         
         // Hacer scroll al inicio en móvil
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        document.body.scrollTop = 0; // Para Safari
+        document.documentElement.scrollTop = 0; 
+
     } else {
         // Comportamiento original para PC
         const sections = document.querySelectorAll('.section');
@@ -1417,8 +1417,12 @@ function showSection(sectionId) {
         const selectedSection = document.getElementById(sectionId);
         selectedSection.classList.add('active');
        
-        selectedSection.scrollIntoView({ behavior: 'smooth' });
+        document.body.scrollTop = 0; // Para Safari
+        document.documentElement.scrollTop = 0; // Para Chrome, Firefox, IE y Opera
+
     }
+    
+
 }
     // Remove Loader
     function removeLoader() {
@@ -1431,52 +1435,57 @@ function enterPortfolio() {
     let headerTitle = document.querySelector("#portfolio-content header h1");
     let headerText = document.querySelector("#portfolio-content header p");
     
-    // Preparar el contenido del portfolio
-    portfolioContent.style.opacity = "0";
+    // CAMBIO CLAVE: Prepara el portfolio ANTES de ocultar la pantalla de bienvenida
+    // Esto prevendrá la pantalla blanca
     portfolioContent.style.display = "block";
+    portfolioContent.style.opacity = "0";
     
-    // Resetear las animaciones
-    headerTitle.style.animation = "none";
-    headerText.style.animation = "none";
-    headerText.style.width = "0";
-    headerText.classList.remove('finished');
-    
-    // Forzar un reflow
-    void headerTitle.offsetWidth;
-    void headerText.offsetWidth;
-    
-    // Asegurarse de que solo la sección about está visible
+    // Asegúrate de que la sección about está visible
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
         section.classList.remove('active');
     });
     document.getElementById('about').classList.add('active');
     
-    // Hacer scroll al inicio
-    window.scrollTo(0, 0);
+    // Inicializa las animaciones del título y texto
+    headerTitle.style.animation = "none";
+    headerText.style.animation = "none";
+    headerText.style.width = "0";
+    headerText.classList.remove('finished');
     
-    // Fade out de la pantalla de bienvenida
-    welcomeScreen.style.transition = "opacity 1s ease-out";
+    // Forzar recálculo
+    void headerTitle.offsetWidth;
+    void headerText.offsetWidth;
+    
+    // CAMBIO IMPORTANTE: Transición casi inmediata
+    welcomeScreen.style.transition = "opacity 0.4s ease-out";
     welcomeScreen.style.opacity = "0";
     
+    // CAMBIO IMPORTANTE: Esperar mucho menos tiempo
     setTimeout(() => {
+        // Ocultar pantalla de bienvenida
         welcomeScreen.style.display = "none";
-        portfolioContent.style.transition = "opacity 1s ease-in";
+        
+        // Mostrar portfolio inmediatamente 
+        portfolioContent.style.transition = "opacity 0.4s ease-in";
         portfolioContent.style.opacity = "1";
         
-        // Reiniciar las animaciones
-        headerTitle.style.animation = "fadeIn 1.5s ease-in-out forwards";
-        headerText.style.animation = "typing 3s steps(35, end) forwards, blink-caret 0.75s step-end infinite";
-        headerText.style.animationDelay = "1.5s";
+        // Iniciar animaciones del texto
+        headerTitle.style.animation = "fadeIn 1s ease-in-out forwards";
+        headerText.style.animation = "typing 2s steps(35, end) forwards, blink-caret 0.75s step-end infinite";
+        headerText.style.animationDelay = "0.4s";
         
-        // Detener el cursor después de que termine la animación
+        // Finalizar animación
         setTimeout(() => {
             headerText.classList.add('finished');
-        }, 4500); // 1.5s delay + 3s animación
-    }, 1000);
+        }, 2400); 
+    }, 350); // Reducido radicalmente (de 1000ms a 350ms)
     
-    cancelAnimationFrame(animationFrameId);
+    // No cancelamos animaciones del ratón ya que quieres mantenerlas
 }
+
+
+
     // Inicialización del efecto láser
     document.addEventListener("DOMContentLoaded", function() {
         const canvas = document.getElementById('cursorCanvas');

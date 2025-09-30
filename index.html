@@ -507,10 +507,7 @@
 
         if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.show();
 
-        // 👉 Empujamos estado al historial para que "atrás" funcione
-        if (!history.state || history.state?.projModal !== true) {
-          history.pushState({ projModal: true, projIndex: idx }, '', '#project-' + (idx + 1));
-        }
+        history.pushState({ projModal: true, projIndex: idx }, '', location.href);
       };
 
       // abrir modal al hacer click/tecla en la tarjeta
@@ -555,8 +552,6 @@
           // 🔙 si el historial estaba en modal, volvemos atrás
           if (history.state?.projModal) {
             history.back();
-          } else {
-            if (location.hash !== '#work') location.hash = '#work';
           }
         };
         dlg.addEventListener('transitionend', finish);
@@ -581,7 +576,7 @@
       window.addEventListener('popstate', () => {
         if (dlg.open && history.state?.projModal) {
           dlg.close();
-          if (location.hash !== '#work') location.hash = '#work';
+
         }
       });
     })();

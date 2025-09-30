@@ -506,7 +506,11 @@
         renderDots();
 
         if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.show();
-        if (location.hash !== '#work') location.hash = '#work';
+
+        // 👉 Empujamos estado al historial para que "atrás" funcione
+        if (!history.state || history.state?.projModal !== true) {
+          history.pushState({ projModal: true, projIndex: idx }, '', '#project-' + (idx + 1));
+        }
       };
 
       // abrir modal al hacer click/tecla en la tarjeta
@@ -546,8 +550,14 @@
         const finish = () => {
           dlg.removeEventListener('transitionend', finish);
           dlg.classList.remove('closing');
-          dlg.close();
-          if (location.hash !== '#work') location.hash = '#work';
+          if (dlg.open) dlg.close();
+
+          // 🔙 si el historial estaba en modal, volvemos atrás
+          if (history.state?.projModal) {
+            history.back();
+          } else {
+            if (location.hash !== '#work') location.hash = '#work';
+          }
         };
         dlg.addEventListener('transitionend', finish);
         setTimeout(finish, 380);
@@ -566,7 +576,16 @@
       ['mousedown','mouseup','pointerdown','pointerup','touchstart'].forEach((ev) => {
         dlg.addEventListener(ev, (e) => { e.stopPropagation(); }, true);
       });
+
+      // 👉 listener para cerrar modal si el usuario pulsa "atrás"
+      window.addEventListener('popstate', () => {
+        if (dlg.open && history.state?.projModal) {
+          dlg.close();
+          if (location.hash !== '#work') location.hash = '#work';
+        }
+      });
     })();
+
 
     // ===== TEXT CYCLING ANIMATION =====
 

@@ -1252,3 +1252,48 @@ body.has-article .lang-switch { opacity: .05; pointer-events: none; }
   h1, h2{ letter-spacing:.3rem; }
 }
 /* --- End mobile polish --- */
+
+
+/* ===== Proyectos en móvil: siempre a color ===== */
+@media (hover: none), (pointer: coarse) {
+  .project-thumb {
+    filter: none !important;
+  }
+  .project-item::after {
+    opacity: .35 !important;
+    background:
+      radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.04), transparent 60%),
+      linear-gradient(to top, rgba(0,0,0,.28) 0%, rgba(0,0,0,.06) 55%, transparent 75%);
+  }
+}
+
+/* ===== Accesos rápidos en móvil ===== */
+
+/* Versión con 2 columnas y proporción 16:9 (recomendada) */
+@media (max-width: 980px) {
+  .tiles { 
+    grid-template-columns: repeat(2, 1fr);
+    gap: .9rem;
+  }
+  .tile {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 420px) {
+  .tiles { grid-template-columns: 1fr; }
+}
+
+/* Ajustar imágenes sin recortes */
+@media (max-width: 980px) {
+  .tile-bg {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: none;
+  }
+  .tile-overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.35));
+  }
+}
